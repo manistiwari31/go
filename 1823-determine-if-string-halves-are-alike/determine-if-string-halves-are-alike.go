@@ -1,18 +1,20 @@
 func halvesAreAlike(s string) bool {
-    half := len(s)/2
-    count2:=0
-    count1:=0
+    vowelsSet := make(map[byte]struct{})
+    for _, b := range []byte{'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'} {
+        vowelsSet[b] = struct{}{}
+    }
 
-    for i:=0; i<=half-1; i++ {
-        if s[i]=='a' || s[i]=='e' || s[i] == 'i' || s[i] == 'o' || s[i] == 'u' || s[i]=='A' || s[i]=='E' || s[i] == 'I' || s[i] == 'O' || s[i] == 'U' {
-            count1++
+    leftCount, rightCount := 0, 0
+    offset := len(s) / 2
+    for i := 0; i < len(s) / 2; i++ {
+        if _, ok := vowelsSet[s[i]]; ok {
+            leftCount++
         }
-        if s[i+half]=='a' || s[i+half]=='e' || s[i+half] == 'i' || s[i+half] == 'o' || s[i+half] == 'u' || s[i+half]=='A' || s[i+half]=='E' || s[i+half] == 'I' || s[i+half] == 'O' || s[i+half] == 'U'{
-            count2++
+
+        if _, ok := vowelsSet[s[i+offset]]; ok {
+            rightCount++
         }
     }
-    if count1 == count2 {
-        return true
-    }
-    return false
+
+    return leftCount == rightCount
 }
